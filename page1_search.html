@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+h1
+{
+ color: black;
+}
+h3
+{
+color:black;
+}
+button
+ {
+ background-color:#F0EAD6;
+ border: none;
+ color: black;
+ padding: 50px 50px;
+ text-align: center;
+ text-decoration: none;
+ display: inline-block;
+ font-size: 18px;
+ margin: 16px 16px;
+ cursor: pointer;
+ position:relative;
+}
+body
+{
+   background-color:#BAB2B5 ;
+  height: 500px;
+  width:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+div 
+{
+   text-align: center;
+    top: 50%;
+    left: 50%;
+   }
+
+</style>
+
+</head>
+<body>
+   <h1><center> KNOW YOUR WORLD </center></h1>
+<br>
+<div>
+<nav>
+<h3>Enter country name:</h3>
+<input type="text" id="CountryName"  placeholder="search">
+<input type="button" value="submit" onclick="DisplayList()">
+</div>
+<div id="searchResults"></div>
+
+<script>
+
+//Javascript code
+
+
+function DisplayList() 
+{
+//Input from the user
+var Country= document.getElementById("CountryName").value;
+fetch('https://restcountries.eu/rest/v2/name/'+Country+'')
+ .then(response => response.json())
+ .then(data => {
+// data would contain the list of related json objects of the countries
+var a=data;
+//get results
+var parentDiv = document.getElementById("searchResults"); 
+//removing the past results or cards
+ while(parentDiv.hasChildNodes()) {
+parentDiv.removeChild(parentDiv.childNodes[0]);
+ }
+//displaying cards
+for(var i=0;i<a.length;i++)
+{  
+var button = document.createElement("button");
+var img = document.createElement("img");
+button.id=a[i].alpha2Code;
+img.src = a[i].flag;
+img.width=120;
+img.height=120;
+img.alt = "logo";
+button.innerHTML=a[i].name+"       ";
+button.appendChild(img);
+// Append results
+var res= document.getElementById("searchResults");
+res.appendChild(button);
+button.onclick=function()
+{
+window.location.href ="page2_result.html?alpha2Code="+this.id;
+}
+
+}
+
+});
+}
+</script>
+
+</body>
+
+</html>
